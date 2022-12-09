@@ -22,6 +22,7 @@ function show_usage() {
 }
 
 function get_log_file_name() {
+    mkdir -p "${LOG_FILE_DIR}"
     if [[ -s ${LOG_FILE_NAME_FLAG} ]]; then
         LOG_FILE_NAME="$(cat "${LOG_FILE_NAME_FLAG}")"
     else
@@ -41,6 +42,7 @@ function quit_test() {
 
 function init_test() {
     echo "$(date +"%F %T"): Initialize the reboot test . " >> "${LOG_FILE_NAME}"
+    mkdir -p "${TEMP_FILE_DIR}"
     echo "$1" > "${MAX_NUMBER_FILE}"
     echo 0 > "${CURRENT_NUMBER_FILE}"
     \cp -rf "${SCRIPT_NAME}" /usr/bin/reboot_test.bash
