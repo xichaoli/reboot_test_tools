@@ -1,0 +1,10 @@
+[Unit]
+Description="Reboot test tools"
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/reboot_test.bash
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
