@@ -51,10 +51,25 @@ function init_test() {
     systemctl enable reboot_test.service
 }
 
+function detect_usb_device() {
+    { echo "lsusb"; lsusb; echo ""; } >> "${LOG_FILE_NAME}"
+}
+
+function detect_pcie_device() {
+    { echo "lspci"; lspci -nn; echo ""; } >> "${LOG_FILE_NAME}"
+}
+
+function detect_peripheral() {
+    detect_usb_device
+    detect_pcie_device
+}
+
 function do_reboot() {
     sleep ${WAITING_TIME}
     echo "$1" > "${CURRENT_NUMBER_FILE}"
     echo "$(date +"%F %T"): This is the $1th reboot test." >> "${LOG_FILE_NAME}"
+
+    detect_peripheral
 
     # 重启设备
     systemctl reboot
