@@ -51,8 +51,24 @@ function init_test() {
     systemctl enable reboot_test.service
 }
 
+function get_Ctrl_C() {
+    echo
+    echo "Got Ctrl + C, the program will quit!"
+    exit 1
+}
+
+function sleep_with_ctrl() {
+    trap 'get_Ctrl_C' INT
+    for i in $(seq "$1" -1 0); do
+        echo -ne "System will reboot after \e[5;31m$i\e[0m seconds, Ctrl + C to quit."
+        echo -ne "\r"
+        sleep 1
+    done
+    echo
+}
+
 function do_reboot() {
-    sleep ${WAITING_TIME}
+    sleep_with_ctrl ${WAITING_TIME}
     echo "$1" > "${CURRENT_NUMBER_FILE}"
     echo "$(date +"%F %T"): This is the $1th reboot test." >> "${LOG_FILE_NAME}"
 

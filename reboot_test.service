@@ -5,6 +5,9 @@ Description="Reboot test tools"
 Type=simple
 ExecStart=/usr/bin/reboot_test.bash
 KillMode=process
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/ttyS0
 
 [Install]
 WantedBy=multi-user.target
